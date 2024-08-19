@@ -27,7 +27,7 @@ jobs:
         working-directory: ./MauiApp
 
       - name: Build MAUI Project for Windows
-        run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
+        run: dotnet build --configuration Release --no-restore 
         working-directory: ./MauiApp
 
       - name: Build NUnit Test Project
