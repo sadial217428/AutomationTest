@@ -17,15 +17,15 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 8.0.x  # Ensure this matches your project's .NET version
+          dotnet-version: 8.0.x  # Make sure this matches your project's .NET version
 
       - name: Install .NET MAUI Workloads
         run: dotnet workload restore
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Restore dependencies only for Windows
+        run: dotnet restore --framework net8.0-windows10.0.19041.0
 
-      - name: Build Windows solution
+      - name: Build Windows solution only
         run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
 
       - name: Run Windows NUnit Tests
