@@ -22,12 +22,11 @@ jobs:
       - name: Install .NET MAUI Workloads
         run: dotnet workload restore
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Restore dependencies with runtime identifiers
+        run: dotnet restore --runtime win-x64 --runtime maccatalyst-x64 --runtime maccatalyst-arm64
 
-      - name: Build Windows solution
-        run: dotnet build --configuration Release --no-restore
+      - name: Build Windows solution only
+        run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
 
       - name: Run Windows NUnit Tests
-        run: dotnet test --no-build --verbosity normal
-
+        run: dotnet test --no-build --verbosity normal --framework net8.0-windows10.0.19041.0
