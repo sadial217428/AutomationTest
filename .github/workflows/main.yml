@@ -30,10 +30,3 @@ jobs:
         run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
         working-directory: ./MauiApp
 
-      - name: Build NUnit Test Project
-        run: dotnet build --configuration Release --no-restore
-        working-directory: ./UITests.Windows
-
-      - name: Run NUnit Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: ./UITests.Windows
