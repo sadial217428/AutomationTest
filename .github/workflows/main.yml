@@ -22,8 +22,11 @@ jobs:
       - name: Install .NET MAUI Workloads
         run: dotnet workload restore
 
-      - name: Restore dependencies with specific RIDs
-        run: dotnet restore --runtime win-x64 --runtime maccatalyst-arm64
+      - name: Restore dependencies for Windows
+        run: dotnet restore --runtime win-x64
+
+      - name: Restore dependencies for MacCatalyst
+        run: dotnet restore --runtime maccatalyst-arm64
 
       - name: Build the solution
         run: dotnet build --configuration Release --no-restore
