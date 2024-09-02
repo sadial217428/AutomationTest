@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Install .NET MAUI Workloads
         run: dotnet workload install maui
@@ -28,7 +28,7 @@ jobs:
         run: dotnet restore
 
       - name: Build MAUI project
-        run: dotnet build --configuration Release --framework net6.0-windows10.0.19041.0
+        run: dotnet build --configuration Release --framework net8.0-windows10.0.19041.0
 
   build-android:
     runs-on: windows-latest
@@ -40,7 +40,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Install .NET MAUI and Android Workloads
         run: |
@@ -51,4 +51,4 @@ jobs:
         run: dotnet restore
 
       - name: Build MAUI project for Android
-        run: dotnet build --configuration Release --framework net6.0-android
+        run: dotnet build --configuration Release --framework net8.0-android
