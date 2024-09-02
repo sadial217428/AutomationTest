@@ -1,19 +1,31 @@
+name: .NET MAUI Windows Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   build-windows:
     runs-on: windows-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v4
+
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Install .NET MAUI Workloads
         run: dotnet workload install maui
 
-      - name: Restore and build for Windows
+      - name: Restore dependencies for Windows
         run: |
           dotnet restore ./MauiApp -r win10-x64 -f net8.0-windows10.0.19041.0
+
+      - name: Build MAUI Project for Windows
+        run: |
           dotnet build ./MauiApp --configuration Release --no-restore -r win10-x64 -f net8.0-windows10.0.19041.0
