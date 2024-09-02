@@ -1,41 +1,8 @@
-name: .NET MAUI Windows Build and Test
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+name: hello-world
+on: push
 jobs:
-  build-and-test:
+  my-job:
     runs-on: windows-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Install .NET MAUI Workloads
-        run: dotnet workload install maui
-
-      - name: Restore dependencies
-        run: |
-          dotnet restore ./MauiApp
-          dotnet restore ./UITests.Windows
-          dotnet restore ./UITests.Shared
-
-      - name: Build MAUI Project for Windows
-        run: |
-          dotnet build ./MauiApp --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
-
-      - name: Build NUnit Test Project
-        run: |
-          dotnet build ./UITests.Windows --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
-
-      - name: Run NUnit Tests
-        run: |
-          dotnet test ./UITests.Windows --no-build --verbosity normal
+      - name: my-step
+        run: echo "Hello World!"
