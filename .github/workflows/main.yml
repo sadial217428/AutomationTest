@@ -1,22 +1,20 @@
-name: .NET MAUI Build
+name: .NET MAUI Windows Build and Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-windows:
+  build-and-test:
     runs-on: windows-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
@@ -25,30 +23,19 @@ jobs:
         run: dotnet workload install maui
 
       - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build MAUI project
-        run: dotnet build --configuration Release --framework net8.0-windows10.0.19041.0
-
-  build-android:
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Install .NET MAUI and Android Workloads
         run: |
-          dotnet workload install maui
-          dotnet workload install android
+          dotnet restore ./MauiApp
+          dotnet restore ./UITests.Windows
+          dotnet restore ./UITests.Shared
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Build MAUI Project for Windows
+        run: |
+          dotnet build ./MauiApp --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
 
-      - name: Build MAUI project for Android
-        run: dotnet build --configuration Release --framework net8.0-android
+      - name: Build NUnit Test Project
+        run: |
+          dotnet build ./UITests.Windows --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
+
+      - name: Run NUnit Tests
+        run: |
+          dotnet test ./UITests.Windows --no-build --verbosity normal
