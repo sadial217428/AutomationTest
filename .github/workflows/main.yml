@@ -24,20 +24,16 @@ jobs:
 
       - name: Restore dependencies with RuntimeIdentifier
         run: |
-          dotnet restore --runtime win10-x64 --framework net8.0-windows10.0.19041.0
-        working-directory: ./MauiApp
+          dotnet restore ./MauiApp --property:RuntimeIdentifier=win10-x64 --property:TargetFramework=net8.0-windows10.0.19041.0
 
       - name: Build MAUI Project for Windows
         run: |
-          dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0 --runtime win10-x64
-        working-directory: ./MauiApp
+          dotnet build ./MauiApp --configuration Release --no-restore --property:RuntimeIdentifier=win10-x64 --property:TargetFramework=net8.0-windows10.0.19041.0
 
       - name: Build NUnit Test Project
         run: |
-          dotnet build --configuration Release --no-restore
-        working-directory: ./UITests.Windows
+          dotnet build ./UITests.Windows --configuration Release --no-restore
 
       - name: Run NUnit Tests
         run: |
-          dotnet test --no-build --verbosity normal
-        working-directory: ./UITests.Windows
+          dotnet test ./UITests.Windows --no-build --verbosity normal
