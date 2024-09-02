@@ -12,28 +12,32 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: '8.0.x'
 
       - name: Install .NET MAUI Workloads
-        run: dotnet workload restore
+        run: dotnet workload install maui
 
       - name: Restore dependencies with RuntimeIdentifier
-        run: dotnet restore --runtime win10-x64 --framework net8.0-windows10.0.19041.0
+        run: |
+          dotnet restore --runtime win10-x64 --framework net8.0-windows10.0.19041.0
         working-directory: ./MauiApp
 
       - name: Build MAUI Project for Windows
-        run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0 --runtime win10-x64
+        run: |
+          dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0 --runtime win10-x64
         working-directory: ./MauiApp
 
       - name: Build NUnit Test Project
-        run: dotnet build --configuration Release --no-restore
+        run: |
+          dotnet build --configuration Release --no-restore
         working-directory: ./UITests.Windows
 
       - name: Run NUnit Tests
-        run: dotnet test --no-build --verbosity normal
+        run: |
+          dotnet test --no-build --verbosity normal
         working-directory: ./UITests.Windows
