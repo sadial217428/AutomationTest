@@ -1,10 +1,12 @@
-name: .NET MAUI Windows Build
+name: .NET MAUI Build
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build-windows:
@@ -12,20 +14,41 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '6.0.x'
 
       - name: Install .NET MAUI Workloads
         run: dotnet workload install maui
 
-      - name: Restore dependencies for Windows
-        run: |
-          dotnet restore ./MauiApp -r win10-x64 -f net8.0-windows10.0.19041.0
+      - name: Restore dependencies
+        run: dotnet restore
 
-      - name: Build MAUI Project for Windows
+      - name: Build MAUI project
+        run: dotnet build --configuration Release --framework net6.0-windows10.0.19041.0
+
+  build-android:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Install .NET MAUI and Android Workloads
         run: |
-          dotnet build ./MauiApp --configuration Release --no-restore -r win10-x64 -f net8.0-windows10.0.19041.0
+          dotnet workload install maui
+          dotnet workload install android
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build MAUI project for Android
+        run: dotnet build --configuration Release --framework net6.0-android
