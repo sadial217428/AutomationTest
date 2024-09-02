@@ -23,11 +23,11 @@ jobs:
         run: dotnet workload restore
 
       - name: Restore dependencies with RuntimeIdentifier
-        run: dotnet restore --runtime win-x64
+        run: dotnet restore --runtime win10-x64 --framework net8.0-windows10.0.19041.0
         working-directory: ./MauiApp
 
       - name: Build MAUI Project for Windows
-        run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0
+        run: dotnet build --configuration Release --no-restore --framework net8.0-windows10.0.19041.0 --runtime win10-x64
         working-directory: ./MauiApp
 
       - name: Build NUnit Test Project
