@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest  # Specify Windows environment as your tests are for Windows app
+    runs-on: windows-latest  # Run on a Windows machine
 
     steps:
       # Step 1: Check out the code from your repository
@@ -27,23 +27,23 @@ jobs:
       - name: Install .NET SDK and Workloads
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'  # This ensures .NET 8 SDK is installed
-      - name: Restore .NET Workloads
+          dotnet-version: '8.0.x'  # Ensure .NET 8 SDK is installed
+      - name: Install .NET MAUI Workload for Windows
         run: dotnet workload install maui-windows
 
-      # Step 4: Download and install WinAppDriver
+      # Step 4: Build only for Windows (skip Android/iOS/etc.)
+      - name: Build for Windows
+        run: dotnet build --configuration Release --framework net8.0-windows10.0.19041.0 --no-restore
+
+      # Step 5: Download and install WinAppDriver
       - name: Install WinAppDriver
         run: |
           Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.99/WindowsApplicationDriver-1.2.99-win-x64.exe -OutFile WinAppDriver.exe
           Start-Process WinAppDriver.exe -ArgumentList "/silent" -Wait
 
-      # Step 5: Install Appium (for running UI tests)
+      # Step 6: Install Appium (for running UI tests)
       - name: Install Appium
         run: npm install -g appium
-
-      # Step 6: Build the solution for Windows
-      - name: Build the solution
-        run: dotnet build --configuration Release 
 
       # Step 7: Start WinAppDriver
       - name: Start WinAppDriver
