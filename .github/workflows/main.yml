@@ -1,4 +1,4 @@
-name: .NET
+name: .NET MAUI Build
 
 on:
   push:
@@ -12,14 +12,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    # Step 1: Check out the code from your repository
     - uses: actions/checkout@v3
+
+    # Step 2: Setup .NET SDK for version 8.0.x
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+
+    # Step 3: Restore dependencies and workloads (for all platforms)
+    - name: Restore workloads for all platforms
+      run: |
+        dotnet workload install maui-android
+        dotnet workload install maui-ios
+        dotnet workload install maui-windows
+        dotnet workload restore
+
+    # Step 4: Build the project (for all platforms)
     - name: Build
       run: dotnet build --no-restore
+
+    # Step 5: Run tests
     - name: Test
       run: dotnet test --no-build --verbosity normal
