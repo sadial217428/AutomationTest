@@ -1,33 +1,50 @@
-name: Build .NET MAUI Windows
+name: Run Windows UI Automation Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  build:
-
-    runs-on: windows-latest
+  test:
+    runs-on: windows-latest  # Specify Windows environment as your tests are for Windows app
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 8.0.x
-    - name: Install MAUI workload
-      run: dotnet workload install maui
-    - name: Decrypt PFX File
-      run: |
-        echo "${{ secrets.WINDOWS_PFX_FILE }}" > cert.pfx.asc
-        certutil -decode cert.pfx.asc cert.pfx
-    - name: Add Cert to Store
-      run: certutil -user -q -p ${{ secrets.WINDOWS_PFX_PASSWORD }} -importpfx cert.pfx NoRoot
-    - name: Build
-      run: dotnet publish MauiGithubActionsSample/MauiGithubActionsSample.csproj -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="${{ secrets.WINDOWS_PFX_THUMBPRINT }}"      
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        path: .\**\AppPackages\**\*.*
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install WinAppDriver
+        run: |
+          Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver.msi -OutFile WinAppDriver.msi
+          Start-Process msiexec.exe -ArgumentList "/i", "WinAppDriver.msi", "/quiet", "/norestart" -Wait
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.x'  # Adjust based on the .NET version you're using
+
+      - name: Install Appium
+        run: npm install -g appium
+
+      - name: Build the solution
+        run: dotnet build --configuration Release
+
+      - name: Start WinAppDriver
+        run: Start-Process -NoNewWindow "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
+
+      - name: Start Appium Server
+        run: appium &
+
+      # Optionally download your pre-built .exe if hosted, or build it
+      # If your app is built as part of the solution, you may not need this step
+
+      - name: Run UI Tests
+        run: dotnet test --configuration Release --no-build --logger trx
