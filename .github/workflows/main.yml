@@ -29,11 +29,11 @@ jobs:
           Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.99/WindowsApplicationDriver-1.2.99-win-x64.exe -OutFile WinAppDriver.exe
           Start-Process WinAppDriver.exe -ArgumentList "/silent" -Wait
 
-      # Step 4: Install .NET SDK to build and run tests
+      # Step 4: Install .NET SDK (specify .NET 8.0)
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.x'  # Use the version you're working with
+          dotnet-version: '8.0.x'  # Ensure .NET 8.0 SDK is used
 
       # Step 5: Install Appium (for running UI tests)
       - name: Install Appium
