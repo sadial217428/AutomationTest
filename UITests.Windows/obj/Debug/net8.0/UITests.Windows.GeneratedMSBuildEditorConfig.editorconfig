@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UITests
-build_property.ProjectDir = F:\MauiAutomationTest\maui-samples\8.0\UITesting\BasicAppiumNunitSample\UITests.Windows\
+build_property.ProjectDir = F:\MauiAutomationTest\AutomationTestCICDTesting\UITests.Windows\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1M8OdBoYjr0=",
+  "dgSpecHash": "Mk6YNfgaggA=",
   "success": true,
-  "projectFilePath": "F:\\MauiAutomationTest\\maui-samples\\8.0\\UITesting\\BasicAppiumNunitSample\\UITests.Shared\\UITests.Shared.csproj",
+  "projectFilePath": "F:\\MauiAutomationTest\\AutomationTestCICDTesting\\UITests.Shared\\UITests.Shared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

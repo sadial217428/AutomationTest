@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\MauiAutomationTest\\maui-samples\\8.0\\UITesting\\BasicAppiumNunitSample\\UITests.Shared\\UITests.Shared.csproj",
+      "projectUniqueName": "F:\\MauiAutomationTest\\AutomationTestCICDTesting\\UITests.Shared\\UITests.Shared.csproj",
       "projectName": "UITests.Shared",
-      "projectPath": "F:\\MauiAutomationTest\\maui-samples\\8.0\\UITesting\\BasicAppiumNunitSample\\UITests.Shared\\UITests.Shared.csproj",
+      "projectPath": "F:\\MauiAutomationTest\\AutomationTestCICDTesting\\UITests.Shared\\UITests.Shared.csproj",
       "packagesPath": "C:\\Users\\Z B O O K\\.nuget\\packages\\",
-      "outputPath": "F:\\MauiAutomationTest\\maui-samples\\8.0\\UITesting\\BasicAppiumNunitSample\\UITests.Shared\\obj\\",
+      "outputPath": "F:\\MauiAutomationTest\\AutomationTestCICDTesting\\UITests.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
